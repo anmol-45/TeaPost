@@ -1,4 +1,4 @@
-package com.company.teaPost.services;
+package com.company.teaPost.services.Impl;
 
 
 import com.company.teaPost.dto.AuthResponse;
@@ -19,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.UUID;
 
 

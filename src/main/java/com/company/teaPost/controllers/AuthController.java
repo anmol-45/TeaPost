@@ -4,7 +4,7 @@ package com.company.teaPost.controllers;
 import com.company.teaPost.dto.AuthResponse;
 import com.company.teaPost.dto.SignInRequestDto;
 import com.company.teaPost.dto.SignUpRequestDto;
-import com.company.teaPost.services.AuthService;
+import com.company.teaPost.services.Impl.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

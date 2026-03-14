@@ -36,9 +36,19 @@ public class SecurityConfig {
                 //disable csrf
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                //allow all requests under  auth without authentication
+                //allow all requests under auth without authentication
+                        //  authentication APIs
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/googleAuth/**").permitAll()
+
+                        // Swagger / OpenAPI
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/swagger-resources/**",
+                                "/webjars/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
         )
                 .exceptionHandling(ex -> ex
