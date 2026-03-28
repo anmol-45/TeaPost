@@ -1,12 +1,12 @@
 package com.company.teaPost.services;
 
-import com.company.teaPost.dto.UpdateUserProfileRequestDto;
-import com.company.teaPost.dto.UserProfileResponseDto;
+import com.company.teaPost.requestDto.UpdateUserProfileRequest;
+import com.company.teaPost.responseDto.UserProfileResponse;
 
 public interface UserService {
 
-    UserProfileResponseDto getUserProfile(String email);
-    UserProfileResponseDto updateUserProfile(UpdateUserProfileRequestDto request);
+    UserProfileResponse getUserProfile(String email);
+    UserProfileResponse updateUserProfile(UpdateUserProfileRequest request);
 
 
 }

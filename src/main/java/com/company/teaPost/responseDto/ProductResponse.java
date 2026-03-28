@@ -1,9 +1,7 @@
-package com.company.teaPost.dto;
+package com.company.teaPost.responseDto;
 
 import lombok.Builder;
 import lombok.Data;
-
-import java.math.BigDecimal;
 
 @Data
 @Builder

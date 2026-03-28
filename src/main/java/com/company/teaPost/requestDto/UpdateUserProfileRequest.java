@@ -1,9 +1,9 @@
-package com.company.teaPost.dto;
+package com.company.teaPost.requestDto;
 
 import lombok.Data;
 
 @Data
-public class UpdateUserProfileRequestDto {
+public class UpdateUserProfileRequest {
 
     private String email;
     private String firstName;

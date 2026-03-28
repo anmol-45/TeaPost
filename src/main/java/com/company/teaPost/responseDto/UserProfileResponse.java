@@ -1,4 +1,4 @@
-package com.company.teaPost.dto;
+package com.company.teaPost.responseDto;
 
 import com.company.teaPost.entities.ShippingAddress;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class UserProfileResponseDto {
+public class UserProfileResponse {
 
     private String email;
     private String firstName;

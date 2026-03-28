@@ -1,9 +1,9 @@
 package com.company.teaPost.services;
 
-import com.company.teaPost.dto.AddCartItemRequest;
-import com.company.teaPost.dto.CartItemResponse;
-import com.company.teaPost.dto.CartResponse;
-import com.company.teaPost.dto.UpdateCartItemRequest;
+import com.company.teaPost.requestDto.AddCartItemRequest;
+import com.company.teaPost.responseDto.CartItemResponse;
+import com.company.teaPost.responseDto.CartResponse;
+import com.company.teaPost.requestDto.UpdateCartItemRequest;
 
 public interface CartService {
 

@@ -1,7 +1,7 @@
 package com.company.teaPost.services.Impl;
 
-import com.company.teaPost.dto.UpdateUserProfileRequestDto;
-import com.company.teaPost.dto.UserProfileResponseDto;
+import com.company.teaPost.requestDto.UpdateUserProfileRequest;
+import com.company.teaPost.responseDto.UserProfileResponse;
 import com.company.teaPost.entities.User;
 import com.company.teaPost.repositories.UserRepo;
 import com.company.teaPost.services.UserService;
@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepo userRepository;
 
     @Override
-    public UserProfileResponseDto getUserProfile(String email) {
+    public UserProfileResponse getUserProfile(String email) {
 
         log.info("Fetching user profile email={}", email);
 
@@ -29,9 +29,9 @@ public class UserServiceImpl implements UserService {
         return mapToResponse(user);
     }
 
-    private UserProfileResponseDto mapToResponse(User user) {
+    private UserProfileResponse mapToResponse(User user) {
 
-        return UserProfileResponseDto.builder()
+        return UserProfileResponse.builder()
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
     @Override
-    public UserProfileResponseDto updateUserProfile(UpdateUserProfileRequestDto request) {
+    public UserProfileResponse updateUserProfile(UpdateUserProfileRequest request) {
 
         log.info("Updating user profile email={}", request.getEmail());
 

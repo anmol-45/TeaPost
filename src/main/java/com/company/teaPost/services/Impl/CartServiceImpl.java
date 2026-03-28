@@ -1,16 +1,18 @@
 package com.company.teaPost.services.Impl;
 
-import com.company.teaPost.dto.*;
+import com.company.teaPost.responseDto.*;
 import com.company.teaPost.entities.Cart;
 import com.company.teaPost.entities.CartItem;
 import com.company.teaPost.entities.Product;
+import com.company.teaPost.payload.CartItemDetails;
 import com.company.teaPost.repositories.CartItemRepository;
 import com.company.teaPost.repositories.CartRepository;
 import com.company.teaPost.repositories.ProductRepository;
+import com.company.teaPost.requestDto.AddCartItemRequest;
+import com.company.teaPost.requestDto.UpdateCartItemRequest;
 import com.company.teaPost.services.CartService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

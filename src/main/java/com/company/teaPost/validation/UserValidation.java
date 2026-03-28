@@ -1,8 +1,8 @@
 package com.company.teaPost.validation;
 
 
-import com.company.teaPost.dto.SignInRequestDto;
-import com.company.teaPost.dto.SignUpRequestDto;
+import com.company.teaPost.requestDto.SignInRequest;
+import com.company.teaPost.requestDto.SignUpRequest;
 
 import java.util.regex.Pattern;
 
@@ -24,15 +24,15 @@ public class UserValidation {
     private static final Pattern PASSWORD_PATTERN = Pattern.compile(PASSWORD_REGEX);
 
     //Check if fields are null or empty
-    public static boolean isEmptyOrNull(SignUpRequestDto userRequest) {
+    public static boolean isEmptyOrNull(SignUpRequest userRequest) {
         return userRequest == null
-                || userRequest.email() == null || userRequest.email().trim().isEmpty()
-                || userRequest.password() == null || userRequest.password().trim().isEmpty()
-                || userRequest.firstName() == null || userRequest.firstName().trim().isEmpty()
-                || userRequest.lastName() == null || userRequest.lastName().trim().isEmpty();
+                || userRequest.getEmail() == null || userRequest.getEmail().trim().isEmpty()
+                || userRequest.getPassword() == null || userRequest.getPassword().trim().isEmpty()
+                || userRequest.getFirstName() == null || userRequest.getFirstName().trim().isEmpty()
+                || userRequest.getLastName()== null || userRequest.getLastName().trim().isEmpty();
     }
 
-    public static boolean isEmptyOrNull(SignInRequestDto userRequest) {
+    public static boolean isEmptyOrNull(SignInRequest userRequest) {
         return userRequest == null
                 || userRequest.getEmail() == null || userRequest.getEmail().trim().isEmpty()
                 || userRequest.getPassword() == null || userRequest.getPassword().trim().isEmpty();

@@ -1,5 +1,6 @@
-package com.company.teaPost.dto;
+package com.company.teaPost.responseDto;
 
+import com.company.teaPost.payload.CartItemDetails;
 import lombok.Builder;
 import lombok.Data;
 

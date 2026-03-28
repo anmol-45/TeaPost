@@ -1,8 +1,8 @@
 package com.company.teaPost.controllers;
 
-import com.company.teaPost.dto.ProductCreateRequest;
-import com.company.teaPost.dto.ProductResponse;
-import com.company.teaPost.dto.UpdateProductRequest;
+import com.company.teaPost.requestDto.ProductCreateRequest;
+import com.company.teaPost.responseDto.ProductResponse;
+import com.company.teaPost.requestDto.UpdateProductRequest;
 import com.company.teaPost.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,9 +1,9 @@
 package com.company.teaPost.services.Impl;
 
 
-import com.company.teaPost.dto.AuthResponse;
-import com.company.teaPost.dto.SignInRequestDto;
-import com.company.teaPost.dto.SignUpRequestDto;
+import com.company.teaPost.requestDto.SignInRequest;
+import com.company.teaPost.requestDto.SignUpRequest;
+import com.company.teaPost.responseDto.AuthResponse;
 import com.company.teaPost.entities.Admin;
 import com.company.teaPost.entities.User;
 import com.company.teaPost.repositories.AdminRepo;
@@ -40,8 +40,8 @@ public class AuthService {
         this.jwtUtil = jwtUtil;
     }
 
-    public ResponseEntity<String> registerUser(SignUpRequestDto userRequest) {
-        logger.info("Attempting to register user with email: {}", userRequest.email());
+    public ResponseEntity<String> registerUser(SignUpRequest userRequest) {
+        logger.info("Attempting to register user with email: {}", userRequest.getEmail());
 
 
         //this basic checks should be done using class called validation to validate emptiness or regex of email and password
@@ -52,35 +52,35 @@ public class AuthService {
         }
 
         // Validate email format
-        if (!UserValidation.isEmailValid(userRequest.email())) {
-            logger.warn("Invalid email format: {}", userRequest.email());
+        if (!UserValidation.isEmailValid(userRequest.getEmail())) {
+            logger.warn("Invalid email format: {}", userRequest.getEmail());
             return new ResponseEntity<>("Invalid email format", HttpStatus.BAD_REQUEST);
         }
 
         // Validate password format
-        if (!UserValidation.isPasswordValid(userRequest.password())) {
+        if (!UserValidation.isPasswordValid(userRequest.getPassword())) {
             logger.warn("Weak password provided");
             return new ResponseEntity<>("Password must contain at least 8 characters, one uppercase letter, one digit, and one special character.", HttpStatus.BAD_REQUEST);
         }
 
-        if (userRepo.findById(userRequest.email()).isPresent()) {
-            logger.warn("User already exists with email: {}", userRequest.email());
+        if (userRepo.findById(userRequest.getEmail()).isPresent()) {
+            logger.warn("User already exists with email: {}", userRequest.getEmail());
             return new ResponseEntity<>("User already exists", HttpStatus.CONFLICT);
         }
 
         Admin userFromAdminDb = null;
         try {
-            userFromAdminDb = adminRepo.getByEmail(userRequest.email());
+            userFromAdminDb = adminRepo.getByEmail(userRequest.getEmail());
         } catch (Exception e) {
             logger.error("Error fetching admin from DB", e);
         }
 
         User user = new User();
         user.setRole(userFromAdminDb == null ? "customer" : userFromAdminDb.getRole());
-        user.setEmail(userRequest.email());
-        user.setPassword(passwordEncoder.encode(userRequest.password()));
-        user.setFirstName(userRequest.firstName());
-        user.setLastName(userRequest.lastName());
+        user.setEmail(userRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        user.setFirstName(userRequest.getFirstName());
+        user.setLastName(userRequest.getLastName());
         user.setCreatedAt(LocalDateTime.now());
 
         try {
@@ -93,7 +93,7 @@ public class AuthService {
         }
     }
 
-    public ResponseEntity<AuthResponse> logInUser(SignInRequestDto signInRequest) {
+    public ResponseEntity<AuthResponse> logInUser(SignInRequest signInRequest) {
 
 
         if(UserValidation.isEmptyOrNull(signInRequest)){

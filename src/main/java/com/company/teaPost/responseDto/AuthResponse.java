@@ -1,4 +1,4 @@
-package com.company.teaPost.dto;
+package com.company.teaPost.responseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

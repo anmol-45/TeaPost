@@ -1,7 +1,7 @@
 package com.company.teaPost.controllers;
 
-import com.company.teaPost.dto.UpdateUserProfileRequestDto;
-import com.company.teaPost.dto.UserProfileResponseDto;
+import com.company.teaPost.requestDto.UpdateUserProfileRequest;
+import com.company.teaPost.responseDto.UserProfileResponse;
 import com.company.teaPost.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/profile")
-    public UserProfileResponseDto getProfile(@RequestParam String email) {
+    public UserProfileResponse getProfile(@RequestParam String email) {
 
         log.info("API request received to fetch profile email={}", email);
 
@@ -24,8 +24,8 @@ public class UserController {
     }
 
     @PutMapping("/profile")
-    public UserProfileResponseDto updateProfile(
-            @RequestBody UpdateUserProfileRequestDto request) {
+    public UserProfileResponse updateProfile(
+            @RequestBody UpdateUserProfileRequest request) {
 
         log.info("API request received to update profile email={}", request.getEmail());
 

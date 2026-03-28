@@ -1,4 +1,4 @@
-package com.company.teaPost.dto;
+package com.company.teaPost.payload;
 
 import lombok.Builder;
 import lombok.Data;

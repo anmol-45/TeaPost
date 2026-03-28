@@ -1,9 +1,10 @@
 package com.company.teaPost.controllers;
 
 
-import com.company.teaPost.dto.AuthResponse;
-import com.company.teaPost.dto.SignInRequestDto;
-import com.company.teaPost.dto.SignUpRequestDto;
+import com.company.teaPost.requestDto.SignInRequest;
+import com.company.teaPost.requestDto.SignUpRequest;
+import com.company.teaPost.responseDto.AuthResponse;
+
 import com.company.teaPost.services.Impl.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +22,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody SignUpRequestDto user){
+    public ResponseEntity<String> registerUser(@RequestBody SignUpRequest user){
 
         return authService.registerUser(user);
 
     }
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> logInUser(@RequestBody SignInRequestDto user){
+    public ResponseEntity<AuthResponse> logInUser(@RequestBody SignInRequest user){
 
         return authService.logInUser(user);
 
