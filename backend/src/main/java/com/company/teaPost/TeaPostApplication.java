@@ -10,4 +10,5 @@ public class TeaPostApplication {
 		SpringApplication.run(TeaPostApplication.class, args);
 	}
 
+
 }
