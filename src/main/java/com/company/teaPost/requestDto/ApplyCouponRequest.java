@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ApplyCouponRequest {
 
-    private Long orderId;
+    private String orderId;
     private String couponCode;
 }
 

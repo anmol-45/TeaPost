@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 public class CartResponse {
 
-    private Long cartId;
+    private String cartId;
 
     private String userId;
 

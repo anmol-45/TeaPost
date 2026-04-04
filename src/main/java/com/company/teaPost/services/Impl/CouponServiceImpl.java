@@ -51,10 +51,10 @@ public class CouponServiceImpl implements CouponService {
         Coupon savedCoupon = couponRepository.save(coupon);
 
         log.info("Coupon created successfully with id={}, code={}",
-                savedCoupon.getId(), savedCoupon.getCode());
+                savedCoupon.getCouponId(), savedCoupon.getCode());
 
         return CreateCouponResponse.builder()
-                .id(savedCoupon.getId())
+                .couponId(savedCoupon.getCouponId())
                 .code(savedCoupon.getCode())
                 .message("Coupon created successfully")
                 .build();
@@ -66,29 +66,29 @@ public class CouponServiceImpl implements CouponService {
         log.info("Applying coupon code={} on orderId={}",
                 request.getCouponCode(), request.getOrderId());
 
-        // 1️⃣ Fetch Order
+        // Fetch Order
         Order order = orderRepository.findById(request.getOrderId())
                 .orElseThrow(() -> {
                     log.error("Order not found for orderId={}", request.getOrderId());
                     return new RuntimeException("Order not found");
                 });
 
-        // 2️⃣ Validate Order State
+        // Validate Order State
         if (!OrderStatus.CREATED.equals(order.getStatus())) {
             log.error("Coupon cannot be applied for orderId={}, status={}",
-                    order.getId(), order.getStatus());
+                    order.getOrderId(), order.getStatus());
             throw new RuntimeException("Coupon can only be applied on CREATED orders");
         }
 
-        // 3️⃣ Fetch Coupon
+        // Fetch Coupon
         Coupon coupon = couponRepository.findByCode(request.getCouponCode())
                 .orElseThrow(() -> {
                     log.error("Invalid coupon code={}", request.getCouponCode());
                     return new RuntimeException("Invalid coupon code");
                 });
 
-        // 4️⃣ Validate Coupon
-        if (!coupon.isActive()) {
+        // Validate Coupon
+        if (!coupon.getActive()) {
             log.error("Coupon inactive code={}", coupon.getCode());
             throw new RuntimeException("Coupon is inactive");
         }
@@ -109,7 +109,7 @@ public class CouponServiceImpl implements CouponService {
             throw new RuntimeException("Order amount too low for this coupon");
         }
 
-        // 5️⃣ Calculate Discount
+        // Calculate Discount
         double originalAmount = order.getTotalAmount();
 
         double discount = originalAmount * coupon.getDiscountPercentage() / 100;
@@ -120,22 +120,23 @@ public class CouponServiceImpl implements CouponService {
 
         double finalAmount = originalAmount - discount;
 
-        // 6️⃣ Update Order
+        // Update Order
         order.setTotalAmount(finalAmount);
         orderRepository.save(order);
 
         log.info("Order updated with discounted amount orderId={}, finalAmount={}",
-                order.getId(), finalAmount);
+                order.getOrderId(), finalAmount);
 
-        // 7️⃣ Update Coupon Usage
+        // Update Coupon Usage
         coupon.setUsedCount(coupon.getUsedCount() + 1);
         couponRepository.save(coupon);
 
         log.info("Coupon usage updated code={}, usedCount={}",
                 coupon.getCode(), coupon.getUsedCount());
 
-        // 8️⃣ Response
+        // Response
         return ApplyCouponResponse.builder()
+                .couponId(coupon.getCouponId())
                 .originalAmount(originalAmount)
                 .discount(discount)
                 .finalAmount(finalAmount)

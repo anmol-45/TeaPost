@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Builder
 public class OrderItemResponse {
-    private Long productId;
+    private String productId;
     private Integer quantity;
     private Double price;
 }

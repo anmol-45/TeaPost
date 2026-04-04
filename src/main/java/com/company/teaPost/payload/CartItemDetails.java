@@ -7,11 +7,13 @@ import lombok.Data;
 @Builder
 public class CartItemDetails {
 
-    private Long productId;
+    private String cartItemId;
+
+    private String productId;
 
     private String productName;
 
-    private double price;
+    private Double price;
 
-    private int quantity;
+    private Integer quantity;
 }

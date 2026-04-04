@@ -9,10 +9,10 @@ public interface ProductService {
 
     ProductResponse createProduct(ProductCreateRequest request);
 
-    Page<ProductResponse> getProducts(Long categoryId, int page, int size);
-    ProductResponse getProductById(Long productId);
+    Page<ProductResponse> getProducts(String categoryId, int page, int size);
+    ProductResponse getProductById(String productId);
 
-    ProductResponse updateProduct(Long productId, UpdateProductRequest request);
-    String deleteProduct(Long productId);
+    ProductResponse updateProduct(String productId, UpdateProductRequest request);
+    String deleteProduct(String productId);
 
 }

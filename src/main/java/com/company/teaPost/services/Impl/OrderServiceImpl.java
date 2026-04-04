@@ -29,6 +29,7 @@ public class OrderServiceImpl implements OrderService {
     private final CartRepository cartRepository;
     private final OrderRepository orderRepository;
 
+    @Override
     public OrderResponse createOrder(CreateOrderRequest request) {
 
         log.info("Initiating order creation for userId={}", request.getUserId());
@@ -65,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
             log.debug("Processing cartItem productId={}, quantity={}",
                     cartItem.getProductId(), cartItem.getQuantity());
 
-            OrderItem item = OrderItem.builder()
+            OrderItem orderItem = OrderItem.builder()
                     .productId(cartItem.getProductId())
                     .quantity(cartItem.getQuantity())
                     .price(cartItem.getPrice())
@@ -73,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
                     .build();
 
             totalAmount += cartItem.getPrice() * cartItem.getQuantity();
-            orderItems.add(item);
+            orderItems.add(orderItem);
         }
 
         order.setItems(orderItems);
@@ -85,22 +86,24 @@ public class OrderServiceImpl implements OrderService {
         // Save Order
         Order savedOrder = orderRepository.save(order);
 
-        log.info("Order persisted successfully with orderId={}", savedOrder.getId());
+        log.info("Order persisted successfully with orderId={}", savedOrder.getOrderId());
 
         // Clear Cart
         cart.getItems().clear();
-        cartRepository.deleteById(cart.getId());
+        cartRepository.deleteById(cart.getCartId());
 
         log.info("Cart cleared for userId={}", request.getUserId());
 
         // Return Response
         return OrderResponse.builder()
-                .orderId(savedOrder.getId())
+                .orderId(savedOrder.getOrderId())
                 .status(savedOrder.getStatus())
                 .totalAmount(savedOrder.getTotalAmount())
                 .build();
     }
-    public OrderDetailResponse getOrderById(Long orderId) {
+
+    @Override
+    public OrderDetailResponse getOrderById(String orderId) {
 
         log.info("Fetching order details for orderId={}", orderId);
 
@@ -127,7 +130,7 @@ public class OrderServiceImpl implements OrderService {
 
         // Build Response
         return OrderDetailResponse.builder()
-                .orderId(order.getId())
+                .orderId(order.getOrderId())
                 .userId(order.getUserId())
                 .status(order.getStatus().toString())
                 .totalAmount(order.getTotalAmount())
@@ -135,7 +138,9 @@ public class OrderServiceImpl implements OrderService {
                 .items(itemResponses)
                 .build();
     }
-    public OrderResponse cancelOrder(Long orderId) {
+
+    @Override
+    public OrderResponse cancelOrder(String orderId) {
 
         log.info("Initiating cancel request for orderId={}", orderId);
 
@@ -157,17 +162,17 @@ public class OrderServiceImpl implements OrderService {
             throw new RuntimeException("Order cannot be cancelled in current state");
         }
 
-        // 3️⃣ Update Status
+        // Update Status
         order.setStatus(OrderStatus.CANCELLED);
 
-        // 4️⃣ Save
+        //  Save
         Order updatedOrder = orderRepository.save(order);
 
         log.info("Order cancelled successfully for orderId={}", orderId);
 
-        // 5️⃣ Response
+        // Response
         return OrderResponse.builder()
-                .orderId(updatedOrder.getId())
+                .orderId(updatedOrder.getOrderId())
                 .status(updatedOrder.getStatus())
                 .totalAmount(updatedOrder.getTotalAmount())
                 .build();

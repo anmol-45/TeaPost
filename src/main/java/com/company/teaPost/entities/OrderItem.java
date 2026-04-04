@@ -15,12 +15,12 @@ import lombok.NoArgsConstructor;
 public class OrderItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String orderItemId;
 
     // product reference
     @Column(nullable = false)
-    private Long productId;
+    private String productId;
 
     @Column(nullable = false)
     private Integer quantity;
@@ -30,6 +30,6 @@ public class OrderItem {
     private Double price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "orderId", nullable = false)
     private Order order;
 }

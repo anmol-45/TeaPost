@@ -19,14 +19,14 @@ import java.time.LocalDateTime;
 public class Review {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String ReviewId;
 
-    private Long productId;
+    private String productId;
 
-    private Long userId;
+    private String userId;
 
-    private int rating; // 1–5
+    private Double rating; // 1–5
 
     private String comment;
 

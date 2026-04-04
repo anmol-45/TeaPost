@@ -127,6 +127,8 @@ public class AuthService {
         String accessToken = jwtUtil.generateToken(email, user.getRole());
         // Create AuthResponse object to return
         AuthResponse authResponse = new AuthResponse();
+        authResponse.setUserId(user.getUserId());
+        authResponse.setEmail(user.getEmail());
         authResponse.setRole(user.getRole());
         authResponse.setToken(accessToken);
         authResponse.setName(user.getFirstName() + " " + user.getLastName());

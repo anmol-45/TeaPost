@@ -11,7 +11,7 @@ public class ProductCreateRequest {
 
     private Double price;
 
-    private Long categoryId;
+    private String categoryId;
 
     private Integer stock;
 }

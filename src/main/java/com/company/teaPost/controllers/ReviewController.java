@@ -37,7 +37,7 @@ public class ReviewController {
 
     @GetMapping("/product/{productId}")
     public ResponseEntity<List<ReviewListResponse>> getReviewsByProduct(
-            @PathVariable Long productId) {
+            @PathVariable String productId) {
 
         log.info("API request received to fetch reviews for productId={}", productId);
 
@@ -52,7 +52,7 @@ public class ReviewController {
 
     @GetMapping("/product/{productId}/rating")
     public ResponseEntity<AverageRatingResponse> getAverageRating(
-            @PathVariable Long productId) {
+            @PathVariable String productId) {
 
         log.info("API request received for average rating productId={}", productId);
 

@@ -22,8 +22,8 @@ import java.time.LocalDateTime;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String productId;
 
     private String name;
 
@@ -31,7 +31,7 @@ public class Product {
 
     private Double price;
 
-    private Long categoryId;
+    private String categoryId;
 
     private Double rating;
 

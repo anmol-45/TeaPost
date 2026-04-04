@@ -7,10 +7,10 @@ import lombok.Data;
 @Builder
 public class ReviewResponse {
 
-    private Long reviewId;
-    private Long productId;
-    private Long userId;
-    private int rating;
+    private String reviewId;
+    private String productId;
+    private String userId;
+    private Double rating;
     private String comment;
     private String message;
 }

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class PaymentRequest {
-    private Long orderId;
+    private String orderId;
     private String paymentMode;
 }
 

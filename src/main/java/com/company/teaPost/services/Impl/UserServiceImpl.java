@@ -21,32 +21,21 @@ public class UserServiceImpl implements UserService {
 
         log.info("Fetching user profile email={}", email);
 
-        User user = userRepository.findById(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("User not found");
+        }
         log.info("User profile fetched successfully email={}", email);
 
         return mapToResponse(user);
     }
 
-    private UserProfileResponse mapToResponse(User user) {
-
-        return UserProfileResponse.builder()
-                .email(user.getEmail())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .phoneNumber(user.getPhoneNumber())
-                .role(user.getRole())
-                .createdAt(user.getCreatedAt())
-                .addressList(user.getShippingAddress())
-                .build();
-    }
     @Override
     public UserProfileResponse updateUserProfile(UpdateUserProfileRequest request) {
 
         log.info("Updating user profile email={}", request.getEmail());
 
-        User user = userRepository.findById(request.getEmail())
+        User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (request.getFirstName() != null) {
@@ -66,6 +55,20 @@ public class UserServiceImpl implements UserService {
         log.info("User profile updated successfully email={}", request.getEmail());
 
         return mapToResponse(updatedUser);
+    }
+
+    private UserProfileResponse mapToResponse(User user) {
+
+        return UserProfileResponse.builder()
+                .userId(user.getUserId())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .phoneNumber(user.getPhoneNumber())
+                .role(user.getRole())
+                .createdAt(user.getCreatedAt())
+                .addressList(user.getShippingAddress())
+                .build();
     }
 
 }

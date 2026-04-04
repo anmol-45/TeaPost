@@ -10,8 +10,8 @@ import java.util.List;
 public interface ReviewService {
 
     ReviewResponse addReview(ReviewRequest request);
-    List<ReviewListResponse> getReviewsByProduct(Long productId);
-    AverageRatingResponse getAverageRating(Long productId);
+    List<ReviewListResponse> getReviewsByProduct(String productId);
+    AverageRatingResponse getAverageRating(String productId);
 
 
 }

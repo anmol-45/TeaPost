@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class AverageRatingResponse {
 
-    private Long productId;
+    private String productId;
     private double averageRating;
     private int totalReviews;
 }

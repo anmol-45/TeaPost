@@ -9,6 +9,6 @@ public class SignUpRequest {
 
     private String email;
     private String password;
-    String firstName;
-    String lastName;
+    private String firstName;
+    private String lastName;
 }

@@ -54,11 +54,11 @@ public class ReviewServiceImpl implements ReviewService {
 
         Review savedReview = reviewRepository.save(review);
 
-        log.info("Review created successfully reviewId={}", savedReview.getId());
+        log.info("Review created successfully reviewId={}", savedReview.getReviewId());
 
         // 4️⃣ Build Response
         return ReviewResponse.builder()
-                .reviewId(savedReview.getId())
+                .reviewId(savedReview.getReviewId())
                 .productId(savedReview.getProductId())
                 .userId(savedReview.getUserId())
                 .rating(savedReview.getRating())
@@ -68,7 +68,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewListResponse> getReviewsByProduct(Long productId) {
+    public List<ReviewListResponse> getReviewsByProduct(String productId) {
 
         log.info("Fetching reviews for productId={}", productId);
 
@@ -82,7 +82,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         return reviews.stream()
                 .map(review -> ReviewListResponse.builder()
-                        .reviewId(review.getId())
+                        .reviewId(review.getReviewId())
                         .userId(review.getUserId())
                         .rating(review.getRating())
                         .comment(review.getComment())
@@ -93,7 +93,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 
     @Override
-    public AverageRatingResponse getAverageRating(Long productId) {
+    public AverageRatingResponse getAverageRating(String productId) {
 
         log.info("Calculating average rating for productId={}", productId);
 
@@ -110,7 +110,7 @@ public class ReviewServiceImpl implements ReviewService {
         }
 
         double average = reviews.stream()
-                .mapToInt(Review::getRating)
+                .mapToDouble(Review::getRating)
                 .average()
                 .orElse(0.0);
 

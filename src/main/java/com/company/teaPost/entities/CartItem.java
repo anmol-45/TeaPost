@@ -12,16 +12,16 @@ import lombok.*;
 public class CartItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String cartItemId;
 
-    private Long productId;
+    private String productId;
 
-    private int quantity;
+    private Integer quantity;
 
-    private double price;
+    private Double price;
 
     @ManyToOne
-    @JoinColumn(name = "cart_id")
+    @JoinColumn(name = "cartId")
     private Cart cart;
 }

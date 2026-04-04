@@ -7,6 +7,7 @@ import lombok.Data;
 @Builder
 public class ApplyCouponResponse {
 
+    private String couponId;
     private Double originalAmount;
     private Double discount;
     private Double finalAmount;

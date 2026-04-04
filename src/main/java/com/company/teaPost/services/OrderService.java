@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 public interface OrderService {
     OrderResponse createOrder(CreateOrderRequest request);
-    OrderDetailResponse getOrderById(Long orderId);
-    OrderResponse cancelOrder(@PathVariable Long orderId);
+    OrderDetailResponse getOrderById(String orderId);
+    OrderResponse cancelOrder(@PathVariable String orderId);
 }

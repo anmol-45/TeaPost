@@ -39,13 +39,13 @@ public class ProductServiceImpl implements ProductService {
 
         Product savedProduct = productRepository.save(product);
 
-        log.info("Product created successfully productId={}", savedProduct.getId());
+        log.info("Product created successfully productId={}", savedProduct.getProductId());
 
         return mapToResponse(savedProduct);
     }
 
     @Override
-    public Page<ProductResponse> getProducts(Long categoryId, int page, int size) {
+    public Page<ProductResponse> getProducts(String categoryId, int page, int size) {
 
         log.info("Fetching products categoryId={} page={} size={}",
                 categoryId, page, size);
@@ -68,7 +68,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductResponse mapToResponse(Product product) {
 
         return ProductResponse.builder()
-                .id(product.getId())
+                .productId(product.getProductId())
                 .name(product.getName())
                 .description(product.getDescription())
                 .price(product.getPrice())
@@ -78,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
                 .build();
     }
     @Override
-    public ProductResponse getProductById(Long productId) {
+    public ProductResponse getProductById(String productId) {
 
         log.info("Fetching product details productId={}", productId);
 
@@ -91,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponse updateProduct(Long productId, UpdateProductRequest request) {
+    public ProductResponse updateProduct(String productId, UpdateProductRequest request) {
 
         log.info("Updating product productId={}", productId);
 
@@ -128,7 +128,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String deleteProduct(Long productId) {
+    public String deleteProduct(String productId) {
 
         log.info("Deleting product productId={}", productId);
 

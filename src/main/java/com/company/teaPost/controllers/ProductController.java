@@ -29,7 +29,7 @@ public class ProductController {
 
     @GetMapping("/products")
     public Page<ProductResponse> getProducts(
-            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) String categoryId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
 
@@ -38,7 +38,7 @@ public class ProductController {
         return productService.getProducts(categoryId, page, size);
     }
     @GetMapping("/products/{productId}")
-    public ProductResponse getProductById(@PathVariable Long productId) {
+    public ProductResponse getProductById(@PathVariable String productId) {
 
         log.info("API request received to fetch product productId={}", productId);
 
@@ -47,7 +47,7 @@ public class ProductController {
 
     @PutMapping("/admin/products/{productId}")
     public ProductResponse updateProduct(
-            @PathVariable Long productId,
+            @PathVariable String productId,
             @RequestBody UpdateProductRequest request) {
 
         log.info("API request received to update product productId={}", productId);
@@ -56,7 +56,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/admin/products/{productId}")
-    public String deleteProduct(@PathVariable Long productId) {
+    public String deleteProduct(@PathVariable String productId) {
 
         log.info("API request received to delete product productId={}", productId);
 

@@ -1,6 +1,8 @@
 package com.company.teaPost.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +19,8 @@ import java.time.LocalDateTime;
 public class Admin {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String adminId;
     private String email;
     private String role;
     private LocalDateTime createdAt;

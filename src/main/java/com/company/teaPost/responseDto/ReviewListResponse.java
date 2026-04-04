@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 @Builder
 public class ReviewListResponse {
 
-    private Long reviewId;
-    private Long userId;
-    private int rating;
+    private String reviewId;
+    private String userId;
+    private Double rating;
     private String comment;
     private LocalDateTime createdAt;
 }

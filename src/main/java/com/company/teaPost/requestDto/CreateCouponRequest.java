@@ -13,5 +13,5 @@ public class CreateCouponRequest {
     private Double minOrderAmount;
     private LocalDateTime expiryDate;
     private boolean active;
-    private int usageLimit;
+    private Integer usageLimit;
 }

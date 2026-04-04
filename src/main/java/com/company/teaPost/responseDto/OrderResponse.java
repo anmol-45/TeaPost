@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Builder
 public class OrderResponse {
-    private Long orderId;
+    private String orderId;
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
     private Double totalAmount;

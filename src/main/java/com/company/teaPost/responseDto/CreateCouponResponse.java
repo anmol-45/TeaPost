@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class CreateCouponResponse {
 
-    private Long id;
+    private String couponId;
     private String code;
     private String message;
 }

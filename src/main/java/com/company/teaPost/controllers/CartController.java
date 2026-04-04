@@ -28,24 +28,22 @@ public class CartController {
 
     @GetMapping("/{userId}")
     public CartResponse getCart(@PathVariable String userId) {
-
         log.info("API request received to fetch cart userId={}", userId);
-
         return cartService.getCart(userId);
     }
 
-    @PutMapping("/items/{itemId}")
+    @PutMapping("/items/{cartItemId}")
     public CartItemResponse updateCartItem(
-            @PathVariable Long itemId,
+            @PathVariable String cartItemId,
             @RequestBody UpdateCartItemRequest request) {
 
-        log.info("API request received to update cart item itemId={}", itemId);
+        log.info("API request received to update cart item itemId={}", cartItemId);
 
-        return cartService.updateCartItem(itemId, request);
+        return cartService.updateCartItem(cartItemId, request);
     }
 
     @DeleteMapping("/items/{itemId}")
-    public String removeCartItem(@PathVariable Long itemId) {
+    public String removeCartItem(@PathVariable String itemId) {
 
         log.info("API request received to remove cart item itemId={}", itemId);
 

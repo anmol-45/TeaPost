@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -50,7 +51,7 @@ public class CartServiceImpl implements CartService {
                 });
 
         CartItem item = CartItem.builder()
-                .productId(product.getId())
+                .productId(product.getProductId())
                 .quantity(request.getQuantity())
                 .price(product.getPrice())
                 .cart(cart)
@@ -58,13 +59,15 @@ public class CartServiceImpl implements CartService {
 
         cart.getItems().add(item);
 
-        cartRepository.save(cart);
+        cart = cartRepository.save(cart);
 
-        log.info("Product added to cart cartId={}", cart.getId());
+        log.info("Product added to cart cartId={}", cart.getCartId());
+        log.info("cartItem added to cart cartId={}", item.getCartItemId());
 
         return CartItemResponse.builder()
-                .cartId(cart.getId())
-                .productId(product.getId())
+                .cartItemId(cart.getItems().stream().map(CartItem::getCartItemId).toList())
+                .cartId(cart.getCartId())
+                .productId(product.getProductId())
                 .quantity(request.getQuantity())
                 .build();
     }
@@ -86,6 +89,7 @@ public class CartServiceImpl implements CartService {
                             .orElseThrow(() -> new RuntimeException("Product not found"));
 
                     return CartItemDetails.builder()
+                            .cartItemId(item.getCartItemId())
                             .productId(item.getProductId())
                             .productName(product.getName())
                             .price(item.getPrice())
@@ -98,10 +102,10 @@ public class CartServiceImpl implements CartService {
                 .mapToDouble(i -> i.getPrice() * i.getQuantity())
                 .sum();
 
-        log.info("Cart fetched successfully cartId={}", cart.getId());
+        log.info("Cart fetched successfully cartId={}", cart.getCartId());
 
         return CartResponse.builder()
-                .cartId(cart.getId())
+                .cartId(cart.getCartId())
                 .userId(userId)
                 .items(items)
                 .totalAmount(total)
@@ -109,38 +113,39 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartItemResponse updateCartItem(Long itemId, UpdateCartItemRequest request) {
+    public CartItemResponse updateCartItem(String cartItemId, UpdateCartItemRequest request) {
 
-        log.info("Updating cart item itemId={} newQuantity={}", itemId, request.getQuantity());
+        log.info("Updating cart item itemId={} newQuantity={}", cartItemId, request.getQuantity());
 
-        CartItem item = cartItemRepository.findById(itemId)
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new RuntimeException("Cart item not found"));
 
-        item.setQuantity(request.getQuantity());
+        cartItem.setQuantity(request.getQuantity());
 
         //need to check if the cart item value doesn't exist the current stock
-        CartItem updatedItem = cartItemRepository.save(item);
+        CartItem updatedItem = cartItemRepository.save(cartItem);
 
-        log.info("Cart item updated successfully itemId={}", updatedItem.getId());
+        log.info("Cart item updated successfully itemId={}", updatedItem.getCartItemId());
 
         return CartItemResponse.builder()
-                .cartId(updatedItem.getCart().getId())
+                .cartId(updatedItem.getCart().getCartId())
+                .cartItemId(Collections.singletonList(updatedItem.getCartItemId()))
                 .productId(updatedItem.getProductId())
                 .quantity(updatedItem.getQuantity())
                 .build();
     }
 
     @Override
-    public String removeCartItem(Long itemId) {
+    public String removeCartItem(String cartItemId) {
 
-        log.info("Removing cart item itemId={}", itemId);
+        log.info("Removing cart item itemId={}", cartItemId);
 
-        CartItem item = cartItemRepository.findById(itemId)
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new RuntimeException("Cart item not found"));
 
-        cartItemRepository.delete(item);
+        cartItemRepository.delete(cartItem);
 
-        log.info("Cart item removed successfully itemId={}", itemId);
+        log.info("Cart item removed successfully itemId={}", cartItem);
         return "Cart item removed successfully";
     }
 

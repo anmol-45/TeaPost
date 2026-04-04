@@ -30,7 +30,7 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
     @GetMapping("/{orderId}")
-    public ResponseEntity<OrderDetailResponse> getOrderById(@PathVariable Long orderId) {
+    public ResponseEntity<OrderDetailResponse> getOrderById(@PathVariable String orderId) {
 
         log.info("API request received to fetch order orderId={}", orderId);
 
@@ -42,7 +42,7 @@ public class OrderController {
     }
 
     @PutMapping("/{orderId}/cancel")
-    public ResponseEntity<OrderResponse> cancelOrder(@PathVariable Long orderId) {
+    public ResponseEntity<OrderResponse> cancelOrder(@PathVariable String orderId) {
 
         log.info("API request received to cancel orderId={}", orderId);
 

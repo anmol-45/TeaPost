@@ -9,8 +9,8 @@ public interface CartService {
 
     CartItemResponse addItemToCart(AddCartItemRequest request);
     CartResponse getCart(String userId);
-    CartItemResponse updateCartItem(Long itemId, UpdateCartItemRequest request);
-    String removeCartItem(Long itemId);
+    CartItemResponse updateCartItem(String cartItemId, UpdateCartItemRequest request);
+    String removeCartItem(String cartItemId);
 
 
 

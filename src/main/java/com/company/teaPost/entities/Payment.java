@@ -17,10 +17,10 @@ import java.time.LocalDateTime;
 public class Payment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String paymentId;
 
-    private Long orderId;
+    private String orderId;
 
     private Double amount;
 

@@ -39,13 +39,13 @@ public class PaymentServiceImpl implements PaymentService {
         // Validate
         if (!OrderStatus.CREATED.equals(order.getStatus())) {
             log.error("Payment not allowed for orderId={}, status={}",
-                    order.getId(), order.getStatus());
+                    order.getOrderId(), order.getStatus());
             throw new RuntimeException("Invalid order state for payment");
         }
 
         // Create Payment
         Payment payment = Payment.builder()
-                .orderId(order.getId())
+                .orderId(order.getOrderId())
                 .amount(order.getTotalAmount())
                 .paymentMode(request.getPaymentMode())
                 .status("PENDING")
@@ -56,12 +56,13 @@ public class PaymentServiceImpl implements PaymentService {
 
 
         return PaymentResponse.builder()
-                .paymentId(savedPayment.getId())
+                .paymentId(savedPayment.getPaymentId())
                 .status(savedPayment.getStatus())
                 .amount(savedPayment.getAmount())
                 .build();
     }
 
+    @Override
     public PaymentCallbackResponse handlePaymentCallback(PaymentCallbackRequest request) {
 
         log.info("Received payment callback for orderId={}, status={}",
@@ -75,9 +76,9 @@ public class PaymentServiceImpl implements PaymentService {
                 });
 
         // Fetch Payment
-        Payment payment = paymentRepository.findByOrderId(order.getId())
+        Payment payment = paymentRepository.findByOrderId(order.getOrderId())
                 .orElseThrow(() -> {
-                    log.error("Payment not found for orderId={}", order.getId());
+                    log.error("Payment not found for orderId={}", order.getOrderId());
                     return new RuntimeException("Payment not found");
                 });
 
@@ -86,7 +87,7 @@ public class PaymentServiceImpl implements PaymentService {
         paymentRepository.save(payment);
 
         log.info("Payment status updated for orderId={}, status={}",
-                order.getId(), request.getStatus());
+                order.getOrderId(), request.getStatus());
 
         // Update Order Based on Payment
         if ("SUCCESS".equalsIgnoreCase(request.getStatus())) {
@@ -98,7 +99,7 @@ public class PaymentServiceImpl implements PaymentService {
         orderRepository.save(order);
 
         log.info("Order status updated for orderId={}, newStatus={}",
-                order.getId(), order.getStatus());
+                order.getOrderId(), order.getStatus());
 
         return PaymentCallbackResponse.builder()
                 .message("Payment callback processed successfully")

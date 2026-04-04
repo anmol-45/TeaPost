@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 public class Coupon {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String couponId;
 
     @Column(unique = true, nullable = false)
     private String code;
@@ -31,10 +31,10 @@ public class Coupon {
 
     private LocalDateTime expiryDate;
 
-    private boolean active;
+    private Boolean active;
 
-    private int usageLimit;
+    private Integer usageLimit;
 
-    private int usedCount;
+    private Integer usedCount;
 }
 
