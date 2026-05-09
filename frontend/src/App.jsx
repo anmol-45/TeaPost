@@ -4,6 +4,9 @@ import ProductPage from "./pages/ProductPage";
 import SignupPage from "./pages/SignUpPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CartPage from "./pages/CartPage";
+import PaymentPage from "./pages/PaymentPage";
+import SuccessPage from "./pages/SuccessPaymentPage";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
@@ -11,7 +14,8 @@ function App() {
       <h1>TeaPost E-commerce</h1>
 
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route
           path="/products"
@@ -22,6 +26,10 @@ function App() {
           }
         />{" "}
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/success" element={<SuccessPage />} />
+
+
       </Routes>
     </div>
   );

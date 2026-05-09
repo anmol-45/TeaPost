@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 function CartPage() {
   const [cart, setCart] = useState(null);
+  const navigate = useNavigate();
 
   const debounceTimers = useRef({}); // store timers per item
 
@@ -115,7 +117,7 @@ function CartPage() {
         console.log("Order placed:", data);
         alert(`✅ Order placed! ID: ${data.orderId}`);
 
-        fetchCart(); // cart should now be empty
+        navigate("/payment", { state: { order: data } });
       })
       .catch((err) => {
         console.error(err);

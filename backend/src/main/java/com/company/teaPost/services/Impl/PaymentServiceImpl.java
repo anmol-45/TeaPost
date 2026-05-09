@@ -10,8 +10,11 @@ import com.company.teaPost.entities.Payment;
 import com.company.teaPost.repositories.OrderRepository;
 import com.company.teaPost.repositories.PaymentRepository;
 import com.company.teaPost.services.PaymentService;
+import com.razorpay.RazorpayClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -21,8 +24,12 @@ import java.time.LocalDateTime;
 @Slf4j
 public class PaymentServiceImpl implements PaymentService {
 
+    @Value("${razorpay.key}")
+    private String key;
+
     private final OrderRepository orderRepository;
     private final PaymentRepository paymentRepository;
+    private final RazorpayClient razorpayClient;
 
     @Override
     public PaymentResponse initiatePayment(PaymentRequest request) {
@@ -43,23 +50,57 @@ public class PaymentServiceImpl implements PaymentService {
             throw new RuntimeException("Invalid order state for payment");
         }
 
-        // Create Payment
-        Payment payment = Payment.builder()
-                .orderId(order.getOrderId())
-                .amount(order.getTotalAmount())
-                .paymentMode(request.getPaymentMode())
-                .status("PENDING")
-                .createdAt(LocalDateTime.now())
-                .build();
 
-        Payment savedPayment = paymentRepository.save(payment);
+//        // Create Payment
+//        Payment payment = Payment.builder()
+//                .orderId(order.getOrderId())
+//                .amount(order.getTotalAmount())
+//                .paymentMode(request.getPaymentMode())
+//                .status("PENDING")
+//                .createdAt(LocalDateTime.now())
+//                .build();
+//
+//        Payment savedPayment = paymentRepository.save(payment);
+//
+//
+//        return PaymentResponse.builder()
+//                .paymentId(savedPayment.getPaymentId())
+//                .status(savedPayment.getStatus())
+//                .amount(savedPayment.getAmount())
+//                .build();
 
+        try {
 
-        return PaymentResponse.builder()
-                .paymentId(savedPayment.getPaymentId())
-                .status(savedPayment.getStatus())
-                .amount(savedPayment.getAmount())
-                .build();
+            JSONObject orderRequest = new JSONObject();
+
+            orderRequest.put("amount", order.getTotalAmount() * 100); // paisa
+            orderRequest.put("currency", "INR");
+            orderRequest.put("receipt", order.getOrderId());
+
+            com.razorpay.Order razorpayOrder =
+                    razorpayClient.orders.create(orderRequest);
+
+            Payment payment = Payment.builder()
+                    .orderId(order.getOrderId())
+                    .amount(order.getTotalAmount())
+                    .paymentMode(request.getPaymentMode())
+                    .status("PENDING")
+                    .createdAt(LocalDateTime.now())
+                    .build();
+
+            Payment savedPayment = paymentRepository.save(payment);
+
+            return PaymentResponse.builder()
+                    .paymentId(savedPayment.getPaymentId())
+                    .status(savedPayment.getStatus())
+                    .amount(savedPayment.getAmount())
+                    .razorpayOrderId(razorpayOrder.get("id"))
+                    .razorpayKey(key)
+                    .build();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -76,7 +117,7 @@ public class PaymentServiceImpl implements PaymentService {
                 });
 
         // Fetch Payment
-        Payment payment = paymentRepository.findByOrderId(order.getOrderId())
+        Payment payment = paymentRepository.findTopByOrderIdOrderByCreatedAtDesc(order.getOrderId())
                 .orElseThrow(() -> {
                     log.error("Payment not found for orderId={}", order.getOrderId());
                     return new RuntimeException("Payment not found");
@@ -84,6 +125,9 @@ public class PaymentServiceImpl implements PaymentService {
 
         // Update Payment Status
         payment.setStatus(request.getStatus());
+        payment.setRazorpayPaymentId(request.getRazorpayPaymentId());
+        payment.setRazorpayOrderId(request.getRazorpayOrderId());
+        payment.setRazorpaySignature(request.getRazorpaySignature());
         paymentRepository.save(payment);
 
         log.info("Payment status updated for orderId={}, status={}",

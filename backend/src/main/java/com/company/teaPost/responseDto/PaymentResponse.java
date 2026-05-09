@@ -9,5 +9,7 @@ public class PaymentResponse {
     private String paymentId;
     private String status;
     private Double amount;
+    private String razorpayOrderId;
+    private String razorpayKey;
 }
 

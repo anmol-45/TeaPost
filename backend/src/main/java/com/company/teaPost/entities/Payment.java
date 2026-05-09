@@ -24,9 +24,16 @@ public class Payment {
 
     private Double amount;
 
-    private String paymentMode; // UPI, CARD
+    private String paymentMode;
 
-    private String status; // SUCCESS, FAILED
+    private String status;
+
+    private String razorpayPaymentId;
+
+    private String razorpayOrderId;
+
+    @Column(length = 1000)
+    private String razorpaySignature;
 
     private LocalDateTime createdAt;
 }

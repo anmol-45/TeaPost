@@ -6,5 +6,8 @@ import lombok.Data;
 public class PaymentCallbackRequest {
 
     private String orderId;
-    private String status; // SUCCESS / FAILED
+    private String status;
+    private String razorpayPaymentId;
+    private String razorpayOrderId;
+    private String razorpaySignature;
 }
